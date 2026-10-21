@@ -4,7 +4,9 @@ import { Header } from "./components/Header"
 export default function App(){
   return (
     <div className={styles.container}>
-      <Header></Header>
+      <main>
+        <Header></Header>
+      </main>
     </div>
   )
 }
