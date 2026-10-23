@@ -28,8 +28,9 @@ export default function App(){
 
     setChallenge(randomWord)
 
-    setAtempts(0)
+    setScore(0)
     setLetter("")
+    setLettersUsed([])
   }
 
   function handleConfirm(){
@@ -73,14 +74,20 @@ export default function App(){
   return (
     <div className={styles.container}>
       <main>
-        <Header current={attempts} max={10} onRestart={handleRestartGame}></Header>
+        <Header current={score} max={10} onRestart={handleRestartGame}></Header>
         <Tip tip={challenge.tip}></Tip>
 
         <div className={styles.word}>
           {
-            challenge.word.split("").map(() => (
-              <Letter value=""></Letter>
-            ))
+            challenge.word.split("").map((letter, index) => {
+              const letterUsed = lettersUsed.find(
+                (used) => used.value.toUpperCase() === letter.toUpperCase() )
+              
+              return <Letter 
+                key={index} 
+                value={letterUsed?.value} 
+                color={letterUsed?.correct ? "correct" : "default"}></Letter>      
+            })
           }
         </div>
 
