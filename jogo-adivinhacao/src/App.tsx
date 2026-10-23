@@ -16,6 +16,7 @@ export default function App(){
   const [challenge, setChallenge] = useState<Challenge | null>(null)
   const [letter, setLetter] = useState("")
   const [lettersUsed, setLettersUsed] = useState<LettersUsedProps[]>([])
+  const [score, setScore] = useState(0)
 
   function handleRestartGame(){
     alert("Reiniciar o jogo")
@@ -48,7 +49,15 @@ export default function App(){
       return alert("Você já usou essa letra " + value)
     }
 
-    setLettersUsed((prevState) => [...prevState, {value, correct: false}])
+    const hits = challenge.word.toUpperCase().split("").filter((char) => char === value).length
+
+    const correct = hits > 0
+
+    const currentScore = score + hits
+
+    setLettersUsed((prevState) => [...prevState, {value, correct}])
+
+    setScore(currentScore)
 
     setLetter("")
   }
@@ -65,7 +74,7 @@ export default function App(){
     <div className={styles.container}>
       <main>
         <Header current={attempts} max={10} onRestart={handleRestartGame}></Header>
-        <Tip tip="Linguagem de programação dinamica"></Tip>
+        <Tip tip={challenge.tip}></Tip>
 
         <div className={styles.word}>
           {
